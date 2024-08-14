@@ -5,9 +5,11 @@ import { Outlet } from 'react-router-dom'
 
 export default function HomePage() {
     return (
-        <main>
-            <Navbar />
-            <Outlet />
+        <main className="min-h-screen flex flex-col justify-between">
+            <>
+                <Navbar />
+                <Outlet />
+            </>
             <Footer />
         </main>
     )
