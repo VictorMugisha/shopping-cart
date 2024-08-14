@@ -1,9 +1,10 @@
 import { nanoid } from "nanoid";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../store/product"
 
 export default function NewProduct() {
+    const currentTheme = useSelector(state => state.theme.value)
     const dispatch = useDispatch()
     const initialState = {
         productId: '',
@@ -50,6 +51,11 @@ export default function NewProduct() {
         setImagePreview("")
     }
 
+    const baseInputClass = "w-full border rounded px-3 py-2 focus:outline-none focus:ring";
+    const themeClass = currentTheme === "dark"
+        ? "bg-gray-700 text-white border-gray-600 focus:border-blue-500"
+        : "bg-white text-gray-800 border-gray-300 focus:border-blue-300";
+
     return (
         <div className="w-full py-5 px-5 md:px-20">
             <h2 className="text-2xl font-semibold mb-8">Add New Product to the Store</h2>
@@ -65,7 +71,7 @@ export default function NewProduct() {
                                 value={productData.productTitle}
                                 onChange={handleChange}
                                 placeholder="Enter Product Title"
-                                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
+                                className={`${baseInputClass} ${themeClass}`}
                             />
                         </div>
                     </div>
@@ -79,7 +85,7 @@ export default function NewProduct() {
                                 value={productData.productType}
                                 onChange={handleChange}
                                 placeholder="Provide Product Type"
-                                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
+                                className={`${baseInputClass} ${themeClass}`}
                             />
                         </div>
                     </div>
@@ -93,7 +99,7 @@ export default function NewProduct() {
                                 value={productData.productMaxPrice}
                                 onChange={handleChange}
                                 placeholder="Type Product Maximum Price"
-                                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
+                                className={`${baseInputClass} ${themeClass}`}
                             />
                         </div>
                     </div>
@@ -107,7 +113,7 @@ export default function NewProduct() {
                                 value={productData.productPrice}
                                 onChange={handleChange}
                                 placeholder="Type Product Price"
-                                className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
+                                className={`${baseInputClass} ${themeClass}`}
                             />
                         </div>
                     </div>
@@ -117,8 +123,8 @@ export default function NewProduct() {
                         <input
                             type="file"
                             name="productImage"
-                            onChange={handleFileChange} // Handle file selection
-                            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
+                            onChange={handleFileChange}
+                            className={`${baseInputClass} ${themeClass}`}
                         />
                         {imagePreview && (
                             <div className="mt-4">
@@ -138,20 +144,20 @@ export default function NewProduct() {
                             name="productDescription"
                             value={productData.productDescription}
                             onChange={handleChange}
-                            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300 h-24 resize-none"
+                            className={`${baseInputClass} ${themeClass} h-24 resize-none`}
                         ></textarea>
                     </div>
                 </div>
                 <div className="flex justify-end mt-6 gap-4">
                     <button
                         type="reset"
-                        className="py-2 px-4 bg-gray-200 rounded shadow-sm hover:bg-gray-300 focus:outline-none"
+                        className={`py-2 px-4 rounded shadow-sm hover:bg-gray-300 focus:outline-none ${currentTheme === "dark" ? "bg-gray-600 text-white hover:text-gray-800" : "bg-gray-200"}`}
                     >
                         Reset
                     </button>
                     <button
                         type="submit"
-                        className="py-2 px-4 bg-blue-500 text-white rounded shadow-sm hover:bg-blue-600 focus:outline-none"
+                        className={`py-2 px-4 rounded shadow-sm focus:outline-none ${currentTheme === "dark" ? "bg-blue-600 hover:bg-blue-700 text-white" : "bg-blue-500 hover:bg-blue-600 text-white"}`}
                     >
                         Save
                     </button>
