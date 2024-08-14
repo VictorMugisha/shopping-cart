@@ -1,5 +1,5 @@
-import { nanoid } from "nanoid"
-import { useState } from "react"
+import { nanoid } from "nanoid";
+import { useState } from "react";
 
 export default function NewProduct() {
     const [productData, setProductData] = useState({
@@ -8,23 +8,51 @@ export default function NewProduct() {
         productType: '',
         productMaxPrice: 0,
         productPrice: 0,
-        productDiscription: ''
-    })
+        productDescription: '',
+        productImage: null
+    });
+    const [imagePreview, setImagePreview] = useState(''); 
 
     function handleChange(event) {
-        const { name, value, type } = event.target
-        setProductData(currentState => {
-            return {
+        const { name, value } = event.target;
+        setProductData(currentState => ({
+            ...currentState,
+            productId: nanoid(),
+            [name]: value
+        }));
+    }
+
+    function handleFileChange(event) {
+        const file = event.target.files[0];
+        if (file) {
+            setProductData(currentState => ({
                 ...currentState,
                 productId: nanoid(),
-                [name]: value
-            }
-        })
+                productImage: file
+            }));
+            
+            // Create a FileReader to read the file and set the preview
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result); 
+            };
+            reader.readAsDataURL(file); 
+        }
     }
 
     function handleSubmit(event) {
-        event.preventDefault()
-        console.log(productData)
+        event.preventDefault();
+
+        const formData = new FormData();
+        formData.append("productId", productData.productId);
+        formData.append("productTitle", productData.productTitle);
+        formData.append("productType", productData.productType);
+        formData.append("productMaxPrice", productData.productMaxPrice);
+        formData.append("productPrice", productData.productPrice);
+        formData.append("productDescription", productData.productDescription);
+        if (productData.productImage) {
+            formData.append("productImage", productData.productImage);
+        }
     }
 
     return (
@@ -89,12 +117,31 @@ export default function NewProduct() {
                         </div>
                     </div>
                     {/* Input box card */}
+                    <div>
+                        <p className="text-sm font-medium mb-2">Product Image</p>
+                        <input
+                            type="file"
+                            name="productImage"
+                            onChange={handleFileChange} // Handle file selection
+                            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
+                        />
+                        {imagePreview && (
+                            <div className="mt-4">
+                                <img
+                                    src={imagePreview}
+                                    alt="Image preview"
+                                    className="w-full h-auto rounded border border-gray-300"
+                                />
+                            </div>
+                        )}
+                    </div>
+                    {/* Input box card */}
                     <div className="md:col-span-2 lg:col-span-3">
                         <p className="text-sm font-medium mb-2">Product Description</p>
                         <textarea
                             placeholder="Give the description of the product"
-                            name="productDiscription"
-                            value={productData.productDiscription}
+                            name="productDescription"
+                            value={productData.productDescription}
                             onChange={handleChange}
                             className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300 h-24 resize-none"
                         ></textarea>
@@ -116,5 +163,5 @@ export default function NewProduct() {
                 </div>
             </form>
         </div>
-    )
+    );
 }
