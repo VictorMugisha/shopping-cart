@@ -11,7 +11,7 @@ export default function NewProduct() {
         productDescription: '',
         productImage: null
     });
-    const [imagePreview, setImagePreview] = useState(''); 
+    const [imagePreview, setImagePreview] = useState('');
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -25,34 +25,33 @@ export default function NewProduct() {
     function handleFileChange(event) {
         const file = event.target.files[0];
         if (file) {
-            setProductData(currentState => ({
-                ...currentState,
-                productId: nanoid(),
-                productImage: file
-            }));
-            
             // Create a FileReader to read the file and set the preview
             const reader = new FileReader();
             reader.onloadend = () => {
-                setImagePreview(reader.result); 
+                setImagePreview(reader.result);
+                setProductData(currentState => ({
+                    ...currentState,
+                    productId: nanoid(),
+                    productImage: reader.result
+                }));
             };
-            reader.readAsDataURL(file); 
+            reader.readAsDataURL(file);
         }
     }
 
     function handleSubmit(event) {
         event.preventDefault();
 
-        const formData = new FormData();
-        formData.append("productId", productData.productId);
-        formData.append("productTitle", productData.productTitle);
-        formData.append("productType", productData.productType);
-        formData.append("productMaxPrice", productData.productMaxPrice);
-        formData.append("productPrice", productData.productPrice);
-        formData.append("productDescription", productData.productDescription);
-        if (productData.productImage) {
-            formData.append("productImage", productData.productImage);
-        }
+        // const formData = new FormData();
+        // formData.append("productId", productData.productId);
+        // formData.append("productTitle", productData.productTitle);
+        // formData.append("productType", productData.productType);
+        // formData.append("productMaxPrice", productData.productMaxPrice);
+        // formData.append("productPrice", productData.productPrice);
+        // formData.append("productDescription", productData.productDescription);
+        // if (productData.productImage) {
+        //     formData.append("productImage", productData.productImage);
+        // }
     }
 
     return (
