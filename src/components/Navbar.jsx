@@ -13,11 +13,19 @@ export default function Navbar() {
     useEffect(() => {
         const { current } = headerRef
         const { classList } = current
-        classList.toggle("bg-gray-800")
-        classList.toggle("text-white")
-        toggleButtonRef.current.classList.toggle("right-1")
-        toggleButtonRef.current.classList.toggle("left-1")
-        toggleButtonRef.current.classList.toggle("bg-white")
+        if (currentTheme === "dark") {
+            classList.add("text-white")
+            classList.add("bg-gray-800")
+            toggleButtonRef.current.classList.add("bg-white")
+            toggleButtonRef.current.classList.add("left-1")
+            toggleButtonRef.current.classList.remove("right-1")
+        } else {
+            classList.remove("bg-gray-800")
+            classList.remove("text-white")
+            toggleButtonRef.current.classList.remove("bg-white")
+            toggleButtonRef.current.classList.remove("left-1")
+            toggleButtonRef.current.classList.add("right-1")
+        }
     }, [currentTheme])
 
     function handleToggleTheme() {
