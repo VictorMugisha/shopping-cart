@@ -1,15 +1,30 @@
 import { FaCartShopping } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { changeTheme } from "../store/theme";
 
 export default function Navbar() {
+    const currentTheme = useSelector(state => state.theme.value)
+    const themeDispatch = useDispatch()
+
     function handleToggleTheme(event) {
         const button = event.target;
         button.classList.toggle("left-1");
         button.classList.toggle("right-1");
+        if (currentTheme === "light") themeDispatch(changeTheme("dark"))
+        if (currentTheme === "dark") themeDispatch(changeTheme("light"))
+    }
+    let dynamicStyles = {}
+    if (currentTheme === "light") {
+        dynamicStyles.backgroundColor = "white"
+        dynamicStyles.color = "black"
+    } else {
+        dynamicStyles.backgroundColor = "black"
+        dynamicStyles.color = "white"
     }
 
     return (
-        <header className="w-full py-5 px-5 md:px-20 flex items-center justify-between shadow-md">
+        <header className="w-full py-5 px-5 md:px-20 flex items-center justify-between shadow-md" style={dynamicStyles}>
             <div>
                 <Link to="/">
                     <h2 className="font-semibold text-2xl md:text-3xl select-none cursor-pointer">
