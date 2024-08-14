@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage'
 import CartDetails from './pages/CartDetails'
 import './App.css'
 import NotFound from './components/NotFound'
+import NewProduct from './pages/NewProduct'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -16,6 +17,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route path="cart" element={<CartDetails />} />
+        <Route path="new-product" element={<NewProduct />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </>
