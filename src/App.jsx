@@ -6,8 +6,9 @@ import {
 } from 'react-router-dom'
 import Layout from './pages/Layout'
 import HomePage from './pages/HomePage'
-import './App.css'
 import CartDetails from './pages/CartDetails'
+import './App.css'
+import NotFound from './components/NotFound'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,6 +16,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
         <Route path="cart" element={<CartDetails />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </>
   )

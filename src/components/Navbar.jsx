@@ -21,7 +21,7 @@ export default function Navbar() {
                         <Link to="/" className="text-sm md:text-base">Home</Link>
                     </li>
                     <li>
-                        <Link to="/" className="text-sm md:text-base">All Products</Link>
+                        <Link to="/new-product" className="text-sm md:text-base">Add Product</Link>
                     </li>
                     <li>
                         <Link to="/" className="text-sm md:text-base">Cars</Link>
