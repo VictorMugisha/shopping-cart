@@ -1,8 +1,11 @@
 import { nanoid } from "nanoid";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../store/product"
 
 export default function NewProduct() {
-    const [productData, setProductData] = useState({
+    const dispatch = useDispatch()
+    const initialState = {
         productId: '',
         productTitle: '',
         productType: '',
@@ -10,7 +13,8 @@ export default function NewProduct() {
         productPrice: 0,
         productDescription: '',
         productImage: null
-    });
+    }
+    const [productData, setProductData] = useState(initialState);
     const [imagePreview, setImagePreview] = useState('');
 
     function handleChange(event) {
@@ -41,6 +45,8 @@ export default function NewProduct() {
 
     function handleSubmit(event) {
         event.preventDefault();
+        dispatch(addProduct(productData))
+        setProductData(initialState)
 
         // const formData = new FormData();
         // formData.append("productId", productData.productId);
