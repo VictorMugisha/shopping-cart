@@ -6,15 +6,7 @@ import Product from '../components/Product';
 import { useSelector } from 'react-redux';
 
 export default function HomePage() {
-  let savedProducts = null;
-  try {
-    const storedValue = localStorage.getItem("allProducts");
-    savedProducts = storedValue ? JSON.parse(storedValue) : null;
-  } catch (error) {
-    console.error('Error parsing JSON from localStorage:', error);
-  }
-  const products = savedProducts ?? useSelector(state => state.products.value) ?? [];
-
+  const products = useSelector(state => state.products.value)
   const currentTheme = useSelector(state => state.theme.value)
   const pageRef = useRef(null)
 
