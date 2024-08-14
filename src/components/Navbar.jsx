@@ -11,26 +11,19 @@ export default function Navbar() {
     return (
         <header className="w-full py-5 px-5 md:px-20 flex items-center justify-between shadow-md">
             <div>
-                <h2 className="font-semibold text-2xl md:text-3xl select-none cursor-pointer">
-                    Fake Shop
-                </h2>
+                <Link to="/">
+                    <h2 className="font-semibold text-2xl md:text-3xl select-none cursor-pointer">
+                        Fake Shop
+                    </h2>
+                </Link>
             </div>
             <nav className="flex items-center gap-5 md:gap-10">
                 <ul className="hidden sm:flex items-center gap-5 md:gap-7">
                     <li>
-                        <Link to="/" className="text-sm md:text-base">Home</Link>
+                        <Link to="/" className="text-sm md:text-base">Products</Link>
                     </li>
                     <li>
                         <Link to="/new-product" className="text-sm md:text-base">Add Product</Link>
-                    </li>
-                    <li>
-                        <Link to="/" className="text-sm md:text-base">Cars</Link>
-                    </li>
-                    <li>
-                        <Link to="/" className="text-sm md:text-base">Clothings</Link>
-                    </li>
-                    <li>
-                        <Link to="/" className="text-sm md:text-base">Shoes</Link>
                     </li>
                 </ul>
                 <div className="theme">
