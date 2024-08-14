@@ -1,16 +1,16 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
-import { Outlet } from 'react-router-dom'
 
 export default function HomePage() {
-    return (
-        <main className="min-h-screen flex flex-col justify-between">
-            <>
-                <Navbar />
-                <Outlet />
-            </>
-            <Footer />
-        </main>
-    )
+  return (
+    <div className="w-full py-5 px-5 md:px-20">
+        <div>
+            <div>
+                <h2>Home Page</h2>
+            </div>
+            <div>
+                Some products here
+            </div>
+        </div>
+    </div>
+  )
 }

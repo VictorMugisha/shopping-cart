@@ -41,12 +41,14 @@ export default function Navbar() {
                         ></button>
                     </div>
                 </div>
-                <div className="relative">
-                    <span
-                        className="absolute text-white bg-red-500 rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center top-[-7px] md:top-[-10px] right-[-7px] md:right-[-10px]"
-                    >9</span>
-                    <FaCartShopping className="text-xl md:text-2xl cursor-pointer" />
-                </div>
+                <Link to="cart">
+                    <div className="relative">
+                        <span
+                            className="absolute text-white bg-red-500 rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center top-[-7px] md:top-[-10px] right-[-7px] md:right-[-10px]"
+                        >9</span>
+                        <FaCartShopping className="text-xl md:text-2xl cursor-pointer" />
+                    </div>
+                </Link>
             </nav>
         </header>
     )
