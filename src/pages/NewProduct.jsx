@@ -47,17 +47,7 @@ export default function NewProduct() {
         event.preventDefault();
         dispatch(addProduct(productData))
         setProductData(initialState)
-
-        // const formData = new FormData();
-        // formData.append("productId", productData.productId);
-        // formData.append("productTitle", productData.productTitle);
-        // formData.append("productType", productData.productType);
-        // formData.append("productMaxPrice", productData.productMaxPrice);
-        // formData.append("productPrice", productData.productPrice);
-        // formData.append("productDescription", productData.productDescription);
-        // if (productData.productImage) {
-        //     formData.append("productImage", productData.productImage);
-        // }
+        setImagePreview("")
     }
 
     return (
