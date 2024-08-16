@@ -7,8 +7,7 @@ export default function CartDetails() {
   const productsOnCart = products.map(productId => {
     return useSelector(state => state.products.value).find(product => product.productId === productId)
   })
-
-  console.log("From Cart Details Component", productsOnCart)
+  
   return (
     <div className="w-full py-5 px-5 md:px-20">
       <h2 className="text-2xl font-semibold mb-8">Your Shopping Cart</h2>

@@ -13,7 +13,6 @@ function debounce(func, delay) {
 
 // Create a debounced version of the function that logs the input filter
 const debouncedApiRequest = debounce((filterObject, dispatchFilter) => {
-    console.log("Updating filter with: ", filterObject.value);
     dispatchFilter(setFilter(filterObject))
 }, 1000);
 
@@ -49,7 +48,6 @@ export default function Filter() {
             value: selectedValue
         }
         debouncedApiRequest(dispatchBySelect, dispatchFilter)
-        console.log()
     }
 
     useEffect(() => {
