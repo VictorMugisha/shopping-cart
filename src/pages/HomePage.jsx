@@ -14,8 +14,11 @@ export default function HomePage() {
   const filterValue = useSelector(state => state.filter.value)
 
   useEffect(() => {
-    if (filterValue) {
-      const newProducts = products.filter(product => product.productTitle.toLowerCase().includes(filterValue.toLowerCase()))
+    if (filterValue.value && filterValue.type === "input") {
+      const newProducts = products.filter(product => product.productTitle.toLowerCase().includes(filterValue.value.toLowerCase()))
+      setLocalProducts(newProducts)
+    } else if (filterValue.value  && filterValue.type === "select") {
+      const newProducts = products.filter(product => product.productType.toLowerCase().includes(filterValue.value.toLowerCase()))
       setLocalProducts(newProducts)
     } else {
       setLocalProducts(products)

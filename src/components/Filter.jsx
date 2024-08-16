@@ -12,9 +12,9 @@ function debounce(func, delay) {
 }
 
 // Create a debounced version of the function that logs the input filter
-const debouncedApiRequest = debounce((filter, dispatchFilter) => {
-    console.log("Updating filter with: ", filter);
-    dispatchFilter(setFilter(filter))
+const debouncedApiRequest = debounce((filterObject, dispatchFilter) => {
+    console.log("Updating filter with: ", filterObject.value);
+    dispatchFilter(setFilter(filterObject))
 }, 1000);
 
 export default function Filter() {
@@ -22,13 +22,32 @@ export default function Filter() {
     const currentTheme = useSelector(state => state.theme.value);
     const inputRef = useRef(null);
     const selectRef = useRef(null);
+    
+    const filterTypes = useSelector(state => state.products.value)
+                            .map(product => {
+                                return product.productType
+                            })
 
     const dispatchFilter = useDispatch()
 
     function handleInputChange(event) {
         const newValue = event.target.value;
         setInputFilter(newValue);
-        debouncedApiRequest(newValue, dispatchFilter);
+        const dispatchByInput = {
+            type: 'input',
+            value: newValue
+        }
+        debouncedApiRequest(dispatchByInput, dispatchFilter);
+    }
+
+    function handleSelectChange(event) {
+        const selectedValue = event.target.value.toLowerCase()
+        const dispatchBySelect = {
+            type: "select",
+            value: selectedValue
+        }
+        debouncedApiRequest(dispatchBySelect, dispatchFilter)
+        console.log()
     }
 
     useEffect(() => {
@@ -56,12 +75,15 @@ export default function Filter() {
             />
             <select
                 ref={selectRef}
+                onChange={handleSelectChange}
                 className="ml-4 border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-300"
             >
                 <option value="">Filter by Type</option>
-                <option value="AMG Suspension">AMG Suspension</option>
-                <option value="Clothing">Clothing</option>
-                <option value="Shoes">Shoes</option>
+                {
+                    filterTypes.map(type => (
+                        <option value={type}>{type}</option>
+                    ))
+                }
             </select>
         </div>
     );
