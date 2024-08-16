@@ -8,6 +8,7 @@ export default function Product({ product }) {
     const productsOnCart = useSelector(state => state.cart.products)
     const currentCartSummary = useSelector(state => state.cart.summary)
     const dispatch = useDispatch()
+    
     function handleAddToCart() {
         if (!productsOnCart.includes(product.productId)) {
             dispatch(addToCart(product.productId))

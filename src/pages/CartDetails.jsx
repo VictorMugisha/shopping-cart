@@ -1,9 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProduct } from '../store/cart';
+import { updateProduct } from '../store/product';
 
 export default function CartDetails() {
   const cart = useSelector(state => state.cart)
+  const storeProducts = useSelector(state => state.products.value)
   const dispatch = useDispatch()
   const { products, summary } = cart
   const productsOnCart = products.map(productId => {
@@ -12,7 +14,16 @@ export default function CartDetails() {
 
   function handleRemoveFromCart(id) {
     dispatch(removeProduct(id))
+    const currentProduct = storeProducts.find(product => product.productId === id)
+    const newProduct = {
+      ...currentProduct,
+      quantity: null,
+      isOnCart: false
+    }
+    dispatch(updateProduct(newProduct))
   }
+
+  console.log("Stored Products from CartDetails: ", storeProducts)
 
   return (
     <div className="w-full py-5 px-5 md:px-20">
