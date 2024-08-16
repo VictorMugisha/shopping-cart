@@ -4,7 +4,7 @@ export const cartSlice = createSlice({
     name: "cart",
     initialState: {
         summary: {
-            subTotal: '',
+            subTotal: 0,
             withholdingTax: 0,
             total: 0
         },
@@ -14,8 +14,15 @@ export const cartSlice = createSlice({
         addToCart: (state, action) => {
             state.products = [...state.products, action.payload]
         },
+        setSummary: (state, action) => {
+            state.summary = action.payload
+        },
+        removeProduct: (state, action) => {
+            const newCartProducts = state.products.filter(product => product.productId !== action.payload)
+            state.products = newCartProducts
+        }
     }
 })
 
-export const { addToCart } = cartSlice.actions
+export const { addToCart, setSummary, removeProduct } = cartSlice.actions
 export default cartSlice.reducer
