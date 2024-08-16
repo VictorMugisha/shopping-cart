@@ -10,6 +10,8 @@ export default function Navbar() {
     const headerRef = useRef(null)
     const toggleButtonRef = useRef(null)
 
+    const cartElementsCount = useSelector(state => state.cart.products).length
+
     useEffect(() => {
         const { current } = headerRef
         const { classList } = current
@@ -69,7 +71,7 @@ export default function Navbar() {
                     <div className="relative">
                         <span
                             className="absolute text-white bg-red-500 rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center top-[-7px] md:top-[-10px] right-[-7px] md:right-[-10px]"
-                        >0</span>
+                        >{cartElementsCount}</span>
                         <FaCartShopping className="text-xl md:text-2xl cursor-pointer" />
                     </div>
                 </Link>

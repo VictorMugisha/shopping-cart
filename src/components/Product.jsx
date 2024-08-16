@@ -1,8 +1,24 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToCart } from '../store/cart'
+import { updateProduct } from "../store/product"
 
 export default function Product({ product }) {
     const currentTheme = useSelector(state => state.theme.value)
+    const productsOnCart = useSelector(state => state.cart.products)
+    const dispatch = useDispatch()
+    function handleAddToCart() {
+        if (!productsOnCart.includes(product.productId)) {
+            dispatch(addToCart(product.productId))
+            const newProduct = {
+                ...product,
+                isOnCart: true
+            }
+            dispatch(updateProduct(newProduct))
+        }
+        else return
+    }
+
     return (
         <div className="border rounded shadow-lg p-4 hover:shadow-xl transition-shadow duration-300 flex flex-col justify-between">
             <div>
@@ -17,7 +33,10 @@ export default function Product({ product }) {
                 <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
                     View
                 </button>
-                <button className="bg-gray-100 text-blue-800 py-2 px-4 rounded hover:bg-gray-200">
+                <button
+                    className="bg-gray-100 text-blue-800 py-2 px-4 rounded hover:bg-gray-200"
+                    onClick={handleAddToCart}
+                >
                     Add to Cart
                 </button>
             </div>

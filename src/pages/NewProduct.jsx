@@ -13,7 +13,8 @@ export default function NewProduct() {
         productMaxPrice: 0,
         productPrice: 0,
         productDescription: '',
-        productImage: null
+        productImage: null,
+        isOnCart: false
     }
     const [productData, setProductData] = useState(initialState);
     const [imagePreview, setImagePreview] = useState('');
@@ -41,6 +42,12 @@ export default function NewProduct() {
                 }));
             };
             reader.readAsDataURL(file);
+        } else {
+            setProductData(currentState => ({
+                ...currentState,
+                productId: nanoid(),
+                productImage: "https://via.placeholder.com/80"
+            }));
         }
     }
 

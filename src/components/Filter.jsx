@@ -83,7 +83,7 @@ export default function Filter() {
                 <option value="">Filter by Type</option>
                 {
                     filterTypes.map(type => (
-                        <option value={type}>{type}</option>
+                        <option key={type} value={type}>{type}</option>
                     ))
                 }
             </select>
