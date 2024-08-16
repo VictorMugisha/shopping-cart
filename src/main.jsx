@@ -7,11 +7,13 @@ import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import productsReducer from "./store/product.js"
 import themeReducer from "./store/theme.js"
+import filterReducer from "./store/filter.js"
 
 const store = configureStore({
   reducer: {
     products: productsReducer,
-    theme: themeReducer
+    theme: themeReducer,
+    filter: filterReducer
   }
 })
 
