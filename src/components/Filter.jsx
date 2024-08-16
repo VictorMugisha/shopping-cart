@@ -23,10 +23,12 @@ export default function Filter() {
     const inputRef = useRef(null);
     const selectRef = useRef(null);
     
-    const filterTypes = useSelector(state => state.products.value)
+    const availableTypes = useSelector(state => state.products.value)
                             .map(product => {
                                 return product.productType
                             })
+
+    const filterTypes = [...new Set(availableTypes)]
 
     const dispatchFilter = useDispatch()
 
