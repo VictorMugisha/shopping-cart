@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilter } from '../store/filter';
 
 // Debounce function to limit how often a function is invoked
 function debounce(func, delay) {
@@ -11,8 +12,9 @@ function debounce(func, delay) {
 }
 
 // Create a debounced version of the function that logs the input filter
-const debouncedApiRequest = debounce((filter) => {
-    console.log("Requesting", filter);
+const debouncedApiRequest = debounce((filter, dispatchFilter) => {
+    console.log("Updating filter with: ", filter);
+    dispatchFilter(setFilter(filter))
 }, 1000);
 
 export default function Filter() {
@@ -21,10 +23,12 @@ export default function Filter() {
     const inputRef = useRef(null);
     const selectRef = useRef(null);
 
+    const dispatchFilter = useDispatch()
+
     function handleInputChange(event) {
         const newValue = event.target.value;
         setInputFilter(newValue);
-        debouncedApiRequest(newValue);
+        debouncedApiRequest(newValue, dispatchFilter);
     }
 
     useEffect(() => {

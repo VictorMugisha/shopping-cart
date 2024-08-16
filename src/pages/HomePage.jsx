@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Hero from '../components/Hero';
 import Filter from '../components/Filter';
 import Product from '../components/Product';
@@ -7,8 +7,20 @@ import { useSelector } from 'react-redux';
 
 export default function HomePage() {
   const products = useSelector(state => state.products.value)
+  const [localProducts, setLocalProducts] = useState(products)
   const currentTheme = useSelector(state => state.theme.value)
   const pageRef = useRef(null)
+
+  const filterValue = useSelector(state => state.filter.value)
+
+  useEffect(() => {
+    if (filterValue) {
+      const newProducts = products.filter(product => product.productTitle.toLowerCase().includes(filterValue.toLowerCase()))
+      setLocalProducts(newProducts)
+    } else {
+      setLocalProducts(products)
+    }
+  }, [filterValue])
 
   useEffect(() => {
     const { current } = pageRef
@@ -29,7 +41,7 @@ export default function HomePage() {
       <Hero />
       <Filter />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map(product => (
+        {localProducts.map(product => (
           <Product key={product.productId} product={product} />
         ))}
       </div>
