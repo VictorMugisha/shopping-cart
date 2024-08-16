@@ -8,12 +8,14 @@ import { Provider } from 'react-redux'
 import productsReducer from "./store/product.js"
 import themeReducer from "./store/theme.js"
 import filterReducer from "./store/filter.js"
+import cartReducer from "./store/cart.js"
 
 const store = configureStore({
   reducer: {
     products: productsReducer,
     theme: themeReducer,
-    filter: filterReducer
+    filter: filterReducer,
+    cart: cartReducer,
   }
 })
 
