@@ -4,26 +4,31 @@ import { removeProduct } from '../store/cart';
 import { updateProduct } from '../store/product';
 
 export default function CartDetails() {
-  const cart = useSelector(state => state.cart)
-  const storeProducts = useSelector(state => state.products.value)
-  const dispatch = useDispatch()
-  const { products, summary } = cart
+  const cart = useSelector(state => state.cart);
+  const storeProducts = useSelector(state => state.products.value);
+  const dispatch = useDispatch();
+
+  const { products, summary } = cart;
+
+  // Map product IDs to their corresponding product objects
   const productsOnCart = products.map(productId => {
-    return useSelector(state => state.products.value).find(product => product.productId === productId)
-  })
+    return storeProducts.find(product => product.productId === productId);
+  });
 
   function handleRemoveFromCart(id) {
-    dispatch(removeProduct(id))
-    const currentProduct = storeProducts.find(product => product.productId === id)
+    dispatch(removeProduct(id));
+    const currentProduct = storeProducts.find(product => product.productId === id);
     const newProduct = {
       ...currentProduct,
       quantity: null,
       isOnCart: false
-    }
-    dispatch(updateProduct(newProduct))
+    };
+    dispatch(updateProduct(newProduct));
   }
 
-  console.log(cart.products)
+  function handleIncreaseQuantity(productId) {
+    // Implementation for increasing quantity
+  }
 
   return (
     <div className="w-full py-5 px-5 md:px-20">
@@ -55,8 +60,9 @@ export default function CartDetails() {
                     </button>
                     <button
                       className="mt-2 text-xl text-gray-800 border border-gray-200 bg-gray-100 px-1 lg:px-3 lg:py-1"
-                    >+
-
+                      onClick={() => handleIncreaseQuantity(product.productId)}
+                    >
+                      +
                     </button>
                     <button
                       className="mt-2 text-sm text-blue-500 hover:underline"
@@ -67,10 +73,8 @@ export default function CartDetails() {
                   </div>
                 </div>
               </div>
-
             ))
           }
-
         </div>
 
         {/* Order Summary Section */}
