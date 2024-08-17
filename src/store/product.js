@@ -8,6 +8,8 @@ export const productsSlice = createSlice({
     reducers: {
         addProduct: (state, action) => {
             state.value = [...state.value, action.payload]
+            const storageReady = JSON.stringify(state.value)
+            localStorage.setItem("shopProducts", storageReady)
         },
         updateProduct: (state, action) => {
             const newProducts = state.value.map(product => {
