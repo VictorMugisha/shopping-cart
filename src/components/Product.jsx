@@ -2,16 +2,17 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addToCart } from '../store/cart'
 import { updateProduct } from "../store/product"
+import { Link } from 'react-router-dom'
 
 export default function Product({ product }) {
     const currentTheme = useSelector(state => state.theme.value)
     const productsOnCart = useSelector(state => state.cart.products)
     const dispatch = useDispatch()
-    
+
     function handleAddToCart() {
         if (!productsOnCart.includes(product.productId)) {
             dispatch(addToCart(product.productId))
-            
+
             const newProduct = {
                 ...product,
                 quantity: 1,
@@ -33,9 +34,13 @@ export default function Product({ product }) {
                 <p className={`text-sm mb-4 ${currentTheme === "light" ? "text-gray-500" : "text-white"}`}>{product.productDescription}</p>
             </div>
             <div className="flex items-center justify-center gap-4">
-                <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
-                    View
-                </button>
+                <Link to={`product-details/${product.productId}`}>
+                    <button
+                        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                    >
+                        View
+                    </button>
+                </Link>
                 <button
                     className="bg-gray-100 text-blue-800 py-2 px-4 rounded hover:bg-gray-200"
                     onClick={handleAddToCart}
