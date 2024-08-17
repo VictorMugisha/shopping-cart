@@ -1,23 +1,17 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToCart, setSummary } from '../store/cart'
+import { addToCart } from '../store/cart'
 import { updateProduct } from "../store/product"
 
 export default function Product({ product }) {
     const currentTheme = useSelector(state => state.theme.value)
     const productsOnCart = useSelector(state => state.cart.products)
-    const currentCartSummary = useSelector(state => state.cart.summary)
     const dispatch = useDispatch()
     
     function handleAddToCart() {
         if (!productsOnCart.includes(product.productId)) {
             dispatch(addToCart(product.productId))
-            const summary = {
-                subTotal: currentCartSummary.subTotal + product.productPrice,
-                tax: (currentCartSummary.subTotal + product.productPrice) * 0.15,
-                total: currentCartSummary.total + product.productPrice + currentCartSummary.tax
-            }
-            dispatch(setSummary(summary))
+            
             const newProduct = {
                 ...product,
                 quantity: 1,

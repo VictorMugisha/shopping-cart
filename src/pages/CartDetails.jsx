@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProduct } from '../store/cart';
 import { updateProduct } from '../store/product';
@@ -7,51 +7,69 @@ export default function CartDetails() {
   const cart = useSelector(state => state.cart);
   const storeProducts = useSelector(state => state.products.value);
   const dispatch = useDispatch();
+  
+  const { products } = cart;
 
-  const { products, summary } = cart;
+  // State to store the computed summary
+  const [computedSummary, setComputedSummary] = useState({
+    subTotal: 0,
+    tax: 0,
+    total: 0
+  });
 
   // Map product IDs to their corresponding product objects
   const productsOnCart = products.map(productId => {
     return storeProducts.find(product => product.productId === productId);
-  });
+  }).filter(product => product !== undefined); // Filter out undefined products
 
   function handleRemoveFromCart(id) {
     const currentProduct = storeProducts.find(product => product.productId === id);
-    dispatch(removeProduct(currentProduct));
-    const newProduct = {
-      ...currentProduct,
-      quantity: null,
-      isOnCart: false
-    };
-    dispatch(updateProduct(newProduct));
+    dispatch(removeProduct(currentProduct)); // Pass only the product ID
+    if (currentProduct) {
+      const newProduct = {
+        ...currentProduct,
+        quantity: null,
+        isOnCart: false
+      };
+      dispatch(updateProduct(newProduct));
+    }
   }
 
   function handleIncreaseQuantity(prod) {
     const newProduct = {
       ...prod,
       quantity: prod.quantity + 1
-    }
-    dispatch(updateProduct(newProduct))
+    };
+    dispatch(updateProduct(newProduct));
   }
 
   function handleDecreaseQuantity(prod) {
-    const currentQuantity = prod.quantity
+    const currentQuantity = prod.quantity;
     if (currentQuantity === 1) {
-      dispatch(removeProduct(prod))
-      return
+      handleRemoveFromCart(prod.productId);
+      return;
     }
     const newProduct = {
       ...prod,
       quantity: prod.quantity - 1
-    }
-    dispatch(updateProduct(newProduct))
+    };
+    dispatch(updateProduct(newProduct));
   }
 
-
   useEffect(() => {
-    const cartProducts = storeProducts.filter(product => products.includes(product.productId))
-    // console.log(cartProducts)
-  }, [products, storeProducts])
+    const cartProducts = storeProducts.filter(product => products.includes(product.productId));
+    const newSummary = {
+      subTotal: 0,
+      tax: 0,
+      total: 0
+    };
+    cartProducts.forEach(product => {
+      newSummary.subTotal += (product.productPrice * (product.quantity || 1)); // Use quantity or default to 1
+    });
+    newSummary.tax = newSummary.subTotal * 0.15; // 15% tax
+    newSummary.total = newSummary.subTotal + newSummary.tax + 5.00; // Add $5 shipping
+    setComputedSummary(newSummary);
+  }, [products, storeProducts]);
 
   return (
     <div className="w-full py-5 px-5 md:px-20">
@@ -106,11 +124,11 @@ export default function CartDetails() {
           <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Order Summary</h3>
           <div className="flex justify-between mb-2">
             <p className="text-gray-600 dark:text-gray-300">Subtotal</p>
-            <p className="text-gray-800 dark:text-white">${summary.subTotal}</p>
+            <p className="text-gray-800 dark:text-white">${computedSummary.subTotal.toFixed(2)}</p>
           </div>
           <div className="flex justify-between mb-2">
             <p className="text-gray-600 dark:text-gray-300">Tax</p>
-            <p className="text-gray-800 dark:text-white">${summary.tax}</p>
+            <p className="text-gray-800 dark:text-white">${computedSummary.tax.toFixed(2)}</p>
           </div>
           <div className="flex justify-between mb-4">
             <p className="text-gray-600 dark:text-gray-300">Shipping</p>
@@ -118,7 +136,7 @@ export default function CartDetails() {
           </div>
           <div className="flex justify-between font-bold text-lg">
             <p className="text-gray-800 dark:text-white">Total</p>
-            <p className="text-gray-800 dark:text-white">${summary.total}</p>
+            <p className="text-gray-800 dark:text-white">${computedSummary.total.toFixed(2)}</p>
           </div>
           <button className="mt-6 w-full py-2 px-4 bg-blue-500 text-white rounded shadow-sm hover:bg-blue-600 focus:outline-none">
             Proceed to Checkout
