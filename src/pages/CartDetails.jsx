@@ -23,7 +23,7 @@ export default function CartDetails() {
     dispatch(updateProduct(newProduct))
   }
 
-  console.log("Stored Products from CartDetails: ", storeProducts)
+  console.log(cart.products)
 
   return (
     <div className="w-full py-5 px-5 md:px-20">
