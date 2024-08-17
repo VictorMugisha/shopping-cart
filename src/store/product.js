@@ -1,9 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+function getLocalStorageProducts() {
+    let storageStatus = localStorage.getItem("shopProducts")
+    if (storageStatus) {
+        return JSON.parse(storageStatus)
+    }
+    return null
+}
+
 export const productsSlice = createSlice({
     name: "products",
     initialState: {
-        value: [],
+        value: getLocalStorageProducts() ?? [],
     },
     reducers: {
         addProduct: (state, action) => {

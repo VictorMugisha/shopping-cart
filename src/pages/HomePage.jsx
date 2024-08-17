@@ -5,16 +5,8 @@ import Product from '../components/Product';
 
 import { useSelector } from 'react-redux';
 
-function getLocalStorageProducts() {
-  let storageStatus = localStorage.getItem("shopProducts")
-  if (storageStatus) {
-    return JSON.parse(storageStatus)
-  }
-  return null
-}
-
 export default function HomePage() {
-  const products = getLocalStorageProducts() ?? useSelector(state => state.products.value)
+  const products = useSelector(state => state.products.value)
   const [localProducts, setLocalProducts] = useState(products)
   const currentTheme = useSelector(state => state.theme.value)
   const pageRef = useRef(null)
