@@ -26,6 +26,8 @@ export const productsSlice = createSlice({
                 } else return product
             })
             state.value = newProducts
+            const storageReady = JSON.stringify(state.value)
+            localStorage.setItem("shopProducts", storageReady)
         }
     }
 })
