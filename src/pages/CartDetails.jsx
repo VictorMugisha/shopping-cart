@@ -7,6 +7,7 @@ export default function CartDetails() {
   const cart = useSelector(state => state.cart);
   const storeProducts = useSelector(state => state.products.value);
   const dispatch = useDispatch();
+  const currentTheme = useSelector(state => state.theme.value)
   
   const { products } = cart;
 
@@ -76,10 +77,10 @@ export default function CartDetails() {
       <h2 className="text-2xl font-semibold mb-8">Your Shopping Cart</h2>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Cart Items Section */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 flex flex-col gap-3">
           {
             productsOnCart.map(product => (
-              <div key={product.productId} className="border rounded-lg p-4 flex justify-between items-center bg-white dark:bg-gray-800">
+              <div key={product.productId} className={`border rounded-lg p-4 flex justify-between items-center ${currentTheme === "dark" ? 'bg-gray-600' : 'bg-white'}`}>
                 <div className="flex items-center gap-4">
                   <img
                     src={product.productImage}
@@ -87,12 +88,12 @@ export default function CartDetails() {
                     className="w-20 h-20 object-cover rounded-lg border"
                   />
                   <div>
-                    <h3 className="text-lg font-medium text-gray-800 dark:text-white">{product.productTitle}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Quantity: {product.quantity}</p>
+                    <h3 className={`text-lg font-medium ${currentTheme === "dark" ? 'text-white' : 'text-gray-800'}`}>{product.productTitle}</h3>
+                    <p className={`text-sm dark:text-gray-400 ${currentTheme === "dark" ? 'text-white' : 'text-gray-500'}`}>Quantity: {product.quantity}</p>
                   </div>
                 </div>
                 <div>
-                  <p className="text-lg font-medium text-gray-800 dark:text-white">${product.productPrice}</p>
+                  <p className={`text-lg font-medium ${currentTheme === "dark" ? 'text-white' : 'text-gray-800'}`}>${product.productPrice}</p>
                   <div className="flex items-center justify-between gap-4">
                     <button
                       className="mt-2 text-xl text-gray-800 border border-gray-200 bg-gray-100 px-1 lg:px-3 lg:py-1"
@@ -107,7 +108,7 @@ export default function CartDetails() {
                       +
                     </button>
                     <button
-                      className="mt-2 text-sm text-blue-500 hover:underline"
+                      className={`mt-2 text-sm hover:underline ${currentTheme === "dark" ? 'text-white' : 'text-blue-500'}`}
                       onClick={() => handleRemoveFromCart(product.productId)}
                     >
                       Remove
@@ -120,23 +121,23 @@ export default function CartDetails() {
         </div>
 
         {/* Order Summary Section */}
-        <div className="border rounded-lg p-4 bg-white dark:bg-gray-800">
-          <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Order Summary</h3>
-          <div className="flex justify-between mb-2">
-            <p className="text-gray-600 dark:text-gray-300">Subtotal</p>
-            <p className="text-gray-800 dark:text-white">${computedSummary.subTotal.toFixed(2)}</p>
+        <div className={`border rounded-lg p-4 bg-white ${currentTheme === "dark" ? 'bg-gray-500' : 'bg-white'}`}>
+          <h3 className={`text-xl font-semibold ${currentTheme === "dark" ? 'text-white' : 'text-gray-800'} mb-4`}>Order Summary</h3>
+          <div className={`flex justify-between mb-2`}>
+            <p className={`${currentTheme === "dark" ? 'text-white' : 'text-gray-600'}`}>Subtotal</p>
+            <p className={`${currentTheme === "dark" ? 'text-white' : 'text-gray-800'}`}>${computedSummary.subTotal.toFixed(2)}</p>
           </div>
-          <div className="flex justify-between mb-2">
-            <p className="text-gray-600 dark:text-gray-300">Tax</p>
-            <p className="text-gray-800 dark:text-white">${computedSummary.tax.toFixed(2)}</p>
+          <div className={`flex justify-between mb-2`}>
+            <p className={`${currentTheme === "dark" ? 'text-white' : 'text-gray-600'}`}>Tax</p>
+            <p className={`${currentTheme === "dark" ? 'text-white' : 'text-gray-800'}`}>${computedSummary.tax.toFixed(2)}</p>
           </div>
-          <div className="flex justify-between mb-4">
-            <p className="text-gray-600 dark:text-gray-300">Shipping</p>
-            <p className="text-gray-800 dark:text-white">$5.00</p>
+          <div className={`flex justify-between mb-4`}>
+            <p className={`${currentTheme === "dark" ? 'text-white' : 'text-gray-600'}`}>Shipping</p>
+            <p className={`${currentTheme === "dark" ? 'text-white' : 'text-gray-800'}`}>$5.00</p>
           </div>
-          <div className="flex justify-between font-bold text-lg">
-            <p className="text-gray-800 dark:text-white">Total</p>
-            <p className="text-gray-800 dark:text-white">${computedSummary.total.toFixed(2)}</p>
+          <div className={`flex justify-between font-bold text-lg`}>
+            <p className={`${currentTheme === "dark" ? 'text-white' : 'text-gray-800'}`}>Total</p>
+            <p className={`${currentTheme === "dark" ? 'text-white' : 'text-gray-800'}`}>${computedSummary.total.toFixed(2)}</p>
           </div>
           <button className="mt-6 w-full py-2 px-4 bg-blue-500 text-white rounded shadow-sm hover:bg-blue-600 focus:outline-none">
             Proceed to Checkout
