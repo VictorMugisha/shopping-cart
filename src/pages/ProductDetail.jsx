@@ -1,14 +1,32 @@
 import { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { addToCart } from "../store/cart"
+import { updateProduct } from '../store/product';
 
 export default function ProductDetail() {
+    const dispatch = useDispatch()
     const { productId } = useParams();
     const product = useSelector(state =>
         state.products.value.find(product => product.productId === productId)
     );
     const currentTheme = useSelector(state => state.theme.value);
     const pageRef = useRef(null);
+
+    const productsOnCart = useSelector(state => state.cart.products)
+
+    function handleAddToCart() {
+        if (!productsOnCart.includes(productId)) {
+            dispatch(addToCart(productId))
+
+            const newProduct = {
+                ...product,
+                quantity: 1,
+                isOnCart: true
+            }
+            dispatch(updateProduct(newProduct))
+        }
+    }
 
     useEffect(() => {
         const { current } = pageRef
@@ -42,7 +60,10 @@ export default function ProductDetail() {
                     <p className="text-lg mb-4">{product.productDescription}</p>
                     <p className="text-xl font-medium mb-4">${product.productPrice}</p>
                     <div className="flex items-center gap-4">
-                        <button className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
+                        <button 
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
+                        onClick={handleAddToCart}
+                        >
                             Add to Cart
                         </button>
                     </div>
