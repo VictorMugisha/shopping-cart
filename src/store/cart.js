@@ -5,7 +5,7 @@ export const cartSlice = createSlice({
     initialState: {
         summary: {
             subTotal: 0,
-            withholdingTax: 0,
+            tax: 0,
             total: 0
         },
         products: []
@@ -18,7 +18,9 @@ export const cartSlice = createSlice({
             state.summary = action.payload
         },
         removeProduct: (state, action) => {
-            state.products = []
+            const { productId } = action.payload
+            const updatedProducts = state.products.filter(product => product !== productId)
+            state.products = updatedProducts
         }
     }
 })

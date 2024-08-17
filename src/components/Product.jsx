@@ -14,8 +14,8 @@ export default function Product({ product }) {
             dispatch(addToCart(product.productId))
             const summary = {
                 subTotal: currentCartSummary.subTotal + product.productPrice,
-                withholdingTax: currentCartSummary.subTotal + product.productPrice,
-                total: currentCartSummary.total + product.productPrice
+                tax: (currentCartSummary.subTotal + product.productPrice) * 0.15,
+                total: currentCartSummary.total + product.productPrice + currentCartSummary.tax
             }
             dispatch(setSummary(summary))
             const newProduct = {

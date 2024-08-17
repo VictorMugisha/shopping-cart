@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeProduct } from '../store/cart';
 import { updateProduct } from '../store/product';
@@ -16,8 +16,8 @@ export default function CartDetails() {
   });
 
   function handleRemoveFromCart(id) {
-    dispatch(removeProduct(id));
     const currentProduct = storeProducts.find(product => product.productId === id);
+    dispatch(removeProduct(currentProduct));
     const newProduct = {
       ...currentProduct,
       quantity: null,
@@ -26,9 +26,32 @@ export default function CartDetails() {
     dispatch(updateProduct(newProduct));
   }
 
-  function handleIncreaseQuantity(productId) {
-    // Implementation for increasing quantity
+  function handleIncreaseQuantity(prod) {
+    const newProduct = {
+      ...prod,
+      quantity: prod.quantity + 1
+    }
+    dispatch(updateProduct(newProduct))
   }
+
+  function handleDecreaseQuantity(prod) {
+    const currentQuantity = prod.quantity
+    if (currentQuantity === 1) {
+      dispatch(removeProduct(prod))
+      return
+    }
+    const newProduct = {
+      ...prod,
+      quantity: prod.quantity - 1
+    }
+    dispatch(updateProduct(newProduct))
+  }
+
+
+  useEffect(() => {
+    const cartProducts = storeProducts.filter(product => products.includes(product.productId))
+    // console.log(cartProducts)
+  }, [products, storeProducts])
 
   return (
     <div className="w-full py-5 px-5 md:px-20">
@@ -55,12 +78,13 @@ export default function CartDetails() {
                   <div className="flex items-center justify-between gap-4">
                     <button
                       className="mt-2 text-xl text-gray-800 border border-gray-200 bg-gray-100 px-1 lg:px-3 lg:py-1"
-                    >-
-
+                      onClick={() => handleDecreaseQuantity(product)}
+                    >
+                      -
                     </button>
                     <button
                       className="mt-2 text-xl text-gray-800 border border-gray-200 bg-gray-100 px-1 lg:px-3 lg:py-1"
-                      onClick={() => handleIncreaseQuantity(product.productId)}
+                      onClick={() => handleIncreaseQuantity(product)}
                     >
                       +
                     </button>
@@ -86,7 +110,7 @@ export default function CartDetails() {
           </div>
           <div className="flex justify-between mb-2">
             <p className="text-gray-600 dark:text-gray-300">Tax</p>
-            <p className="text-gray-800 dark:text-white">${summary.withholdingTax}</p>
+            <p className="text-gray-800 dark:text-white">${summary.tax}</p>
           </div>
           <div className="flex justify-between mb-4">
             <p className="text-gray-600 dark:text-gray-300">Shipping</p>
